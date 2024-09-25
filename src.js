@@ -32,6 +32,13 @@ ad.addEventListener("click", (e)=>{
   ops.appendChild(check);
   ops.appendChild(remove);
 
+  
+  if (input.value == ""){
+    div.remove()
+    display.appendChild(def)
+    def.innerText = "Your haven't type something to add"
+    
+  }
   input.value = ''
 
 
