@@ -3,9 +3,14 @@ const ad = document.querySelector(".adding");
 const display = document.querySelector(".display");
 const i = '<i class="fa-solid fa-trash"></i>';
 const def = document.querySelector(".default");
+const flter = document.querySelector(".filter");
 
-ad.addEventListener("click", (e)=>{
+ad.addEventListener("click", (e) => {
+  
   def.remove();
+  // if (display.innerHTML == false) {
+  //   document.body.style.backgroundColor = 'green'
+  // }
 
   let div = document.createElement("div");
   div.className = "todos";
@@ -13,7 +18,7 @@ ad.addEventListener("click", (e)=>{
   let p = document.createElement("p");
   p.className = "txt";
   p.innerText = input.value;
-  p.style.textTransform = 'capitalize'
+  p.style.textTransform = "capitalize";
 
   let ops = document.createElement("div");
   ops.className = "ops";
@@ -31,32 +36,54 @@ ad.addEventListener("click", (e)=>{
   div.appendChild(ops);
   ops.appendChild(check);
   ops.appendChild(remove);
+  console.log(div.value);
 
-  
-  if (input.value == ""){
-    div.remove()
-    display.appendChild(def)
-    def.innerText = "Your haven't type something to add"
-    
+  if (input.value == "") {
+    div.remove();
+    display.appendChild(def);
+    def.innerText = "Your haven't type something to add";
   }
-  input.value = ''
-
+  input.value = "";
 
   check.addEventListener("change", () => {
     if (check.checked) {
       p.style.textDecoration = "line-through";
-      p.style.textDecorationColor = "red"
+      p.style.textDecorationColor = "red";
     } else {
-      p.style.textDecoration = "none"
+      p.style.textDecoration = "none";
     }
   });
 
+  remove.addEventListener("click", function (e) {
+    const pa = e.target.parentElement.parentElement.parentElement;
+    pa.remove();
+  });
 
-  remove.addEventListener('click', function(e) {
-    const pa = e.target.parentElement.parentElement.parentElement
-    pa.remove()
+  flter.addEventListener("input", (e) => {
+    let val = flter.value;
+    let lower = val.toLowerCase()
+    console.log(val);
 
-    })
+    let all = document.querySelectorAll(".todos");
+    all.forEach((item, index) => {
+      item.value = index;
+      let para = item.firstChild;
+      let tl = para.innerText.toLowerCase()
+      let condition = tl.includes(val)
+      if (flter.value == '') {
+        para.style.color = 'black'
+      }
+
+      else if (condition == true) {
+        item.style.backgroundColor = 'black'
+        document.querySelectorAll('i').forEach((e)=>{e.style.color = 'white'})
+        para.style.color = 'white'
+      }
+      
+    });
+    
+    
+  });
 
 
 
@@ -64,10 +91,5 @@ ad.addEventListener("click", (e)=>{
 
 
 
-
-
-
-
-  
 
 });
