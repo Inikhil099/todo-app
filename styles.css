@@ -4,7 +4,8 @@ button{
 
 body{
     background-color: black;
-    height: 100vh;
+    height: auto;
+    margin: auto auto;
     width: 100vw;
     display: flex;
     justify-content: center;

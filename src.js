@@ -55,7 +55,7 @@ ad.addEventListener("click", (e) => {
     pa.remove();
   });
 
-  flter.addEventListener("input", (e) => {
+  flter.addEventListener("change", (e) => {
     let val = flter.value;
     let lower = val.toLowerCase();
 
@@ -73,6 +73,12 @@ ad.addEventListener("click", (e) => {
         item.lastElementChild.lastElementChild.style.color = "black";
         document.querySelectorAll('.filtered').forEach((item)=>{
           item.classList.remove('filtered')
+          if (input.value != "") {
+            display.appendChild(def)
+          }
+          else{
+            def.remove();
+          }
           display.appendChild(item);
         })
       } 
