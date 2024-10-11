@@ -6,11 +6,8 @@ const def = document.querySelector(".default");
 const flter = document.querySelector(".filter");
 
 ad.addEventListener("click", (e) => {
-  
   def.remove();
-  // if (display.innerHTML == false) {
-  //   document.body.style.backgroundColor = 'green'
-  // }
+  
 
   let div = document.createElement("div");
   div.className = "todos";
@@ -36,7 +33,6 @@ ad.addEventListener("click", (e) => {
   div.appendChild(ops);
   ops.appendChild(check);
   ops.appendChild(remove);
-  console.log(div.value);
 
   if (input.value == "") {
     div.remove();
@@ -61,35 +57,37 @@ ad.addEventListener("click", (e) => {
 
   flter.addEventListener("input", (e) => {
     let val = flter.value;
-    let lower = val.toLowerCase()
-    console.log(val);
+    let lower = val.toLowerCase();
 
     let all = document.querySelectorAll(".todos");
     all.forEach((item, index) => {
-      item.value = index;
+      let id = item.value;
+      id = index;
       let para = item.firstChild;
-      let tl = para.innerText.toLowerCase()
-      let condition = tl.includes(val)
-      if (flter.value == '') {
-        para.style.color = 'black'
+      let tl = para.innerText.toLowerCase();
+      let condition = tl.includes(lower);
+      if (flter.value == "") {
+
+        para.style.color = "black";
+        item.style.backgroundColor = "transparent";
+        item.lastElementChild.lastElementChild.style.color = "black";
+        document.querySelectorAll('.filtered').forEach((item)=>{
+          item.classList.remove('filtered')
+          display.appendChild(item);
+        })
+      } 
+      
+      else if (condition == true) {
+        item.style.backgroundColor = "black";
+        item.classList.add('filtered')
+        item.lastElementChild.lastElementChild.style.color = "white";
+        para.style.color = "white";
+        display.insertBefore(item, display.firstElementChild);
+
       }
 
-      else if (condition == true) {
-        item.style.backgroundColor = 'black'
-        document.querySelectorAll('i').forEach((e)=>{e.style.color = 'white'})
-        para.style.color = 'white'
-      }
-      
+
     });
     
-    
   });
-
-
-
-
-
-
-
-
 });
