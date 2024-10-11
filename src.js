@@ -55,7 +55,7 @@ ad.addEventListener("click", (e) => {
     pa.remove();
   });
 
-  flter.addEventListener("change", (e) => {
+  flter.addEventListener("input", (e) => {
     let val = flter.value;
     let lower = val.toLowerCase();
 
@@ -68,8 +68,18 @@ ad.addEventListener("click", (e) => {
       let condition = tl.includes(lower);
       if (flter.value == "") {
 
-        para.style.color = "black";
+
+        // let rn = tl.replace(`<span class="got">${lower}</span>`,lower)
+        let rn = document.querySelectorAll('.sp')
+        rn.forEach((e)=>{
+          e.style.color = 'black'
+          // e.remove();
+          // para.innerHTML = tl;
+          // para.style.color = 'white'
+        });
+        
         item.style.backgroundColor = "transparent";
+        para.style.color = "black";
         item.lastElementChild.lastElementChild.style.color = "black";
         document.querySelectorAll('.filtered').forEach((item)=>{
           item.classList.remove('filtered')
@@ -84,16 +94,18 @@ ad.addEventListener("click", (e) => {
       } 
       
       else if (condition == true) {
-        item.style.backgroundColor = "black";
         item.classList.add('filtered')
-        item.lastElementChild.lastElementChild.style.color = "white";
-        para.style.color = "white";
+        let nr = tl.replace(lower , `<span class="sp">${lower}</span>`)
+        para.innerHTML = nr;
+        para.firstElementChild.style.color = 'red'
         display.insertBefore(item, display.firstElementChild);
-
       }
-
 
     });
     
+      
+
   });
 });
+
+
