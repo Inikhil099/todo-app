@@ -38,6 +38,7 @@ ad.addEventListener("click", (e) => {
     div.remove();
     display.appendChild(def);
     def.innerText = "Your haven't type something to add";
+    
   }
   input.value = "";
 
@@ -69,13 +70,12 @@ ad.addEventListener("click", (e) => {
       if (flter.value == "") {
 
 
-        // let rn = tl.replace(`<span class="got">${lower}</span>`,lower)
         let rn = document.querySelectorAll('.sp')
         rn.forEach((e)=>{
+          // let rev = tl.replace(`<span class="got">${lower}</span>`,lower)
           e.style.color = 'black'
-          // e.remove();
-          // para.innerHTML = tl;
-          // para.style.color = 'white'
+          
+
         });
         
         item.style.backgroundColor = "transparent";
