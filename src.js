@@ -38,8 +38,8 @@ ad.addEventListener("click", (e) => {
     div.remove();
     display.appendChild(def);
     def.innerText = "Your haven't type something to add";
-    
   }
+  
   input.value = "";
 
   check.addEventListener("change", () => {
@@ -59,30 +59,26 @@ ad.addEventListener("click", (e) => {
   flter.addEventListener("input", (e) => {
     let val = flter.value;
     let lower = val.toLowerCase();
+    let all_todos = document.querySelectorAll(".todos");
 
-    let all = document.querySelectorAll(".todos");
-    all.forEach((item, index) => {
+    all_todos.forEach((item, index) => {
       let id = item.value;
       id = index;
       let para = item.firstChild;
-      let tl = para.innerText.toLowerCase();
-      let condition = tl.includes(lower);
+      let to_lower = para.innerText.toLowerCase();
+      let condition = to_lower.includes(lower) || to_lower == lower;
+
+
       if (flter.value == "") {
-
-
-        let rn = document.querySelectorAll('.sp')
-        rn.forEach((e)=>{
-          // let rev = tl.replace(`<span class="got">${lower}</span>`,lower)
-          e.style.color = 'black'
-          
-
+        let span = document.querySelectorAll('.sp')
+        span.forEach((e)=>{
+          e.replaceWith(e.innerText)
         });
-        
         item.style.backgroundColor = "transparent";
         para.style.color = "black";
         item.lastElementChild.lastElementChild.style.color = "black";
         document.querySelectorAll('.filtered').forEach((item)=>{
-          item.classList.remove('filtered')
+          item.classList.remove('filtered');
           if (input.value != "") {
             display.appendChild(def)
           }
@@ -92,19 +88,20 @@ ad.addEventListener("click", (e) => {
           display.appendChild(item);
         })
       } 
+
+
       
       else if (condition == true) {
         item.classList.add('filtered')
-        let nr = tl.replace(lower , `<span class="sp">${lower}</span>`)
-        para.innerHTML = nr;
+        let replace = to_lower.replace(lower , `<span class="sp">${lower}</span>`)
+        para.innerHTML = replace;
         para.firstElementChild.style.color = 'red'
         display.insertBefore(item, display.firstElementChild);
       }
 
-    });
-    
-      
 
+    });
+      
   });
 });
 
