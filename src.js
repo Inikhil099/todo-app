@@ -7,7 +7,6 @@ const flter = document.querySelector(".filter");
 
 ad.addEventListener("click", (e) => {
   def.remove();
-  
 
   let div = document.createElement("div");
   div.className = "todos";
@@ -39,8 +38,10 @@ ad.addEventListener("click", (e) => {
     display.appendChild(def);
     def.innerText = "Your haven't type something to add";
   }
-  
+
+
   input.value = "";
+
 
   check.addEventListener("change", () => {
     if (check.checked) {
@@ -50,6 +51,7 @@ ad.addEventListener("click", (e) => {
       p.style.textDecoration = "none";
     }
   });
+
 
   remove.addEventListener("click", function (e) {
     const pa = e.target.parentElement.parentElement.parentElement;
@@ -68,41 +70,24 @@ ad.addEventListener("click", (e) => {
       let to_lower = para.innerText.toLowerCase();
       let condition = to_lower.includes(lower) || to_lower == lower;
 
-
-      if (flter.value == "") {
-        let span = document.querySelectorAll('.sp')
-        span.forEach((e)=>{
-          e.replaceWith(e.innerText)
+      if (condition != true) {
+        item.style.display = 'none'
+      }
+      if (condition == true) {
+          item.classList.add("filtered");
+          let replace = to_lower.replace(lower,`<span class="sp">${lower}</span>`);
+          para.innerHTML = replace;
+          para.style.textTransform = 'none'
+      }
+      if(flter.value == ""){
+        item.style.display = 'flex'
+        para.style.textTransform = 'capitalize'
+        let span = document.querySelectorAll(".sp");
+        span.forEach((e) => {
+          e.replaceWith(e.innerText);
         });
-        item.style.backgroundColor = "transparent";
-        para.style.color = "black";
-        item.lastElementChild.lastElementChild.style.color = "black";
-        document.querySelectorAll('.filtered').forEach((item)=>{
-          item.classList.remove('filtered');
-          if (input.value != "") {
-            display.appendChild(def)
-          }
-          else{
-            def.remove();
-          }
-          display.appendChild(item);
-        })
-      } 
-
-
-      
-      else if (condition == true) {
-        item.classList.add('filtered')
-        let replace = to_lower.replace(lower , `<span class="sp">${lower}</span>`)
-        para.innerHTML = replace;
-        para.firstElementChild.style.color = 'red'
-        display.insertBefore(item, display.firstElementChild);
       }
 
-
     });
-      
   });
 });
-
-
