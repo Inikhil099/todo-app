@@ -80,7 +80,7 @@ ad.addEventListener("click", (e) => {
           para.style.textTransform = 'none'
       }
       if(flter.value == ""){
-        item.style.display = 'block'
+        item.style.display = 'flex'
         para.style.textTransform = 'capitalize'
         let span = document.querySelectorAll(".sp");
         span.forEach((e) => {
