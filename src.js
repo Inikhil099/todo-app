@@ -10,7 +10,6 @@ let count = 1;
 if (localStorage.length != 0) {
   count = localStorage.length;
 }
-
 else {
   count = 1;}
 
