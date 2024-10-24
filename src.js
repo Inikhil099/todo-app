@@ -1,21 +1,19 @@
 const input = document.querySelector(".task");
 const ad = document.querySelector(".adding");
 const display = document.querySelector(".display");
-// const i = '<i class="fa-solid fa-trash"></i>';
 const i = "fa-solid fa-trash";
 const def = document.querySelector(".default");
 const flter = document.querySelector(".filter");
-let cnt = 1;
-let list_count = 1;
+let count = 1;
+
+localStorage.length != 0 ? (count = localStorage.length) : (count = 1);
 
 ad.addEventListener("click", (e) => {
-  
   def.remove();
 
   let div = document.createElement("div");
   div.className = "todos";
-  div.value = cnt;
-  cnt = cnt + 1;
+  div.value = count;
 
   let p = document.createElement("p");
   p.className = "txt";
@@ -30,7 +28,7 @@ ad.addEventListener("click", (e) => {
 
   let remove = document.createElement("i");
   remove.className = i;
-  remove.style.cursor = "pointer"
+  remove.style.cursor = "pointer";
 
   display.appendChild(div);
   div.appendChild(p);
@@ -38,22 +36,18 @@ ad.addEventListener("click", (e) => {
   ops.appendChild(check);
   ops.appendChild(remove);
 
-  localStorage.setItem(`list${list_count}`,[input.value]);
-  list_count = list_count + 1;
+  if (input.value != "") {
+    localStorage.setItem(`list${count}`, input.value);
+  }
+  count = count + 1;
 
   if (input.value == "") {
     div.remove();
     display.appendChild(def);
     def.innerText = "Your haven't type something to add";
 
-    if (localStorage.length != 0) {
-      cnt = localStorage.length;
-      list_count = localStorage.length; 
-    }
-    else{
-      cnt = 1;
-      list_count = 1;
-    }
+    localStorage.length != 0 ? (count = localStorage.length) : (count = 1);
+    alert("cannot make an empty todo");
   }
 
   input.value = "";
@@ -71,8 +65,8 @@ ad.addEventListener("click", (e) => {
     let pa = e.target.parentElement.parentElement;
     console.log(pa.value);
     pa.remove();
-    localStorage.removeItem(`list${pa.value}`)
-    cnt = localStorage.length;
+    localStorage.removeItem(`list${pa.value}`);
+    count = localStorage.length;
   });
 
   flter.addEventListener("input", (e) => {
@@ -108,19 +102,15 @@ ad.addEventListener("click", (e) => {
 });
 
 const load = () => {
-  if (localStorage.length != 0) {
-    cnt = localStorage.length;
-  }
-  else{
-    cnt = 1;
-  }
-  
-  for (let b = 1; b <= localStorage.length; b++) {
+  localStorage.length != 0 ? (count = localStorage.length) : (count = 1);
+
+  for (let b = 1; b <= 10; b++) {
     let l = localStorage.getItem(`list${b}`);
-    if (l==null) {
+
+    if (l == null || l == undefined || l == "") {
       continue;
     }
-    
+
     let div = document.createElement("div");
     div.className = "todos";
     div.value = b;
@@ -146,7 +136,6 @@ const load = () => {
     ops.appendChild(check);
     ops.appendChild(remove);
 
-
     check.addEventListener("change", () => {
       if (check.checked) {
         p.style.textDecoration = "line-through";
@@ -155,13 +144,13 @@ const load = () => {
         p.style.textDecoration = "none";
       }
     });
-  
-    remove.addEventListener("click", (e)=> {
+
+    remove.addEventListener("click", (e) => {
       let pa = e.target.parentElement.parentElement;
       console.log(pa.value);
       pa.remove();
-      localStorage.removeItem(`list${pa.value}`)
-      cnt = cnt - 1;
+      localStorage.removeItem(`list${pa.value}`);
+      count = localStorage.length;
     });
   }
 };
