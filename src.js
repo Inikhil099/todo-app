@@ -1,4 +1,3 @@
-
 const input = document.querySelector(".task");
 const ad = document.querySelector(".adding");
 const display = document.querySelector(".display");
@@ -8,33 +7,35 @@ const flter = document.querySelector(".filter");
 let newArr = [];
 
 function createTodo(a) {
- 
-  def.remove();
-  newArr.push(input.value);
-  localStorage.setItem("todos",newArr)
+  def?.remove();
+  if (input.value != "") {
+    newArr.push(input.value);
+  }
+  localStorage.setItem("todos", newArr);
   console.log(newArr);
-  
+
   let div = document.createElement("div");
   div.className = "todos";
 
   if (input.value == "") {
     div.remove();
-    display.appendChild(def);
-    def.innerText = "Your TODOS";
+    // display.appendChild(def);
+    // def.innerText = "Your TODOS";
+    new swal("Don't Make An Empty TODO ");
     return;
   }
 
   let p = document.createElement("p");
   p.className = "txt";
   p.innerText = a;
-  const  TodoDone = () => {
+  const TodoDone = () => {
     if (check.checked) {
       p.style.textDecoration = "line-through";
       p.style.textDecorationColor = "red";
     } else {
       p.style.textDecoration = "none";
     }
-  }
+  };
 
   let ops = document.createElement("div");
   ops.className = "ops";
@@ -42,9 +43,9 @@ function createTodo(a) {
   let check = document.createElement("input");
   check.type = "checkbox";
   check.style.cursor = "pointer";
-  check.addEventListener("change",()=>{
-    TodoDone()
-  })
+  check.addEventListener("change", () => {
+    TodoDone();
+  });
 
   let remove = document.createElement("i");
   remove.className = i;
@@ -52,14 +53,15 @@ function createTodo(a) {
     let parentElem = e.target.parentElement.parentElement;
     let firChild = parentElem.firstChild;
     parentElem.remove();
+
     newArr = newArr.filter((e) => {
       console.log(firChild.innerText);
-      
+
       return e != firChild.innerText;
     });
-    localStorage.setItem("todos",newArr)
+    localStorage.setItem("todos", newArr);
   }
-  remove.addEventListener("click" ,removeTodo)
+  remove.addEventListener("click", removeTodo);
 
   display.appendChild(div);
   div.appendChild(p);
@@ -72,7 +74,6 @@ ad.addEventListener("click", (e) => {
   createTodo(input.value);
   input.value = "";
 
-  
   flter.addEventListener("input", (e) => {
     let val = flter.value;
     let lower = val.toLowerCase();
@@ -105,15 +106,62 @@ ad.addEventListener("click", (e) => {
   });
 });
 
-function load(){
+function createOnLoad() {
   let get = localStorage.getItem("todos");
-  if (!get) {
+  newArr = get.split(",");
+  newArr = newArr.filter((e) => {
+    e != " ";
+  });
+  console.log(newArr);
+  if (localStorage.length < 1 || newArr.length < 1) {
     return;
   }
-  let g = get.split(',');
-  newArr = g;
-  g.forEach((e)=>{
-    createTodo(e)
-    
-  })
-};
+
+  newArr.forEach((e) => {
+    let div = document.createElement("div");
+    div.className = "todos";
+
+    let p = document.createElement("p");
+    p.className = "txt";
+    p.innerText = e;
+    const TodoDone = () => {
+      if (check.checked) {
+        p.style.textDecoration = "line-through";
+        p.style.textDecorationColor = "red";
+      } else {
+        p.style.textDecoration = "none";
+      }
+    };
+
+    let ops = document.createElement("div");
+    ops.className = "ops";
+
+    let check = document.createElement("input");
+    check.type = "checkbox";
+    check.style.cursor = "pointer";
+    check.addEventListener("change", () => {
+      TodoDone();
+    });
+
+    let remove = document.createElement("i");
+    remove.className = i;
+    function removeTodo(e) {
+      let parentElem = e.target.parentElement.parentElement;
+      let firChild = parentElem.firstChild;
+      parentElem.remove();
+      newArr = newArr.filter((e) => {
+        console.log(firChild.innerText);
+
+        return e != firChild.innerText;
+      });
+      localStorage.setItem("todos", newArr);
+    }
+    remove.addEventListener("click", removeTodo);
+
+    display.appendChild(div);
+    div.appendChild(p);
+    div.appendChild(ops);
+    ops.appendChild(check);
+    ops.appendChild(remove);
+  });
+}
