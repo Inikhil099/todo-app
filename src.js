@@ -1,23 +1,40 @@
+
 const input = document.querySelector(".task");
 const ad = document.querySelector(".adding");
 const display = document.querySelector(".display");
 const i = "fa-solid fa-trash";
 const def = document.querySelector(".default");
 const flter = document.querySelector(".filter");
-let count = 1;
+let newArr = [];
 
-localStorage.length != 0 ? (count = localStorage.length) : (count = 1);
-
-ad.addEventListener("click", (e) => {
+function createTodo(a) {
+ 
   def.remove();
-
+  newArr.push(input.value);
+  localStorage.setItem("todos",newArr)
+  console.log(newArr);
+  
   let div = document.createElement("div");
   div.className = "todos";
-  div.value = count;
+
+  if (input.value == "") {
+    div.remove();
+    display.appendChild(def);
+    def.innerText = "Your TODOS";
+    return;
+  }
 
   let p = document.createElement("p");
   p.className = "txt";
-  p.innerText = input.value;
+  p.innerText = a;
+  const  TodoDone = () => {
+    if (check.checked) {
+      p.style.textDecoration = "line-through";
+      p.style.textDecorationColor = "red";
+    } else {
+      p.style.textDecoration = "none";
+    }
+  }
 
   let ops = document.createElement("div");
   ops.className = "ops";
@@ -25,50 +42,37 @@ ad.addEventListener("click", (e) => {
   let check = document.createElement("input");
   check.type = "checkbox";
   check.style.cursor = "pointer";
+  check.addEventListener("change",()=>{
+    TodoDone()
+  })
 
   let remove = document.createElement("i");
   remove.className = i;
-  remove.style.cursor = "pointer";
+  function removeTodo(e) {
+    let parentElem = e.target.parentElement.parentElement;
+    let firChild = parentElem.firstChild;
+    parentElem.remove();
+    newArr = newArr.filter((e) => {
+      console.log(firChild.innerText);
+      
+      return e != firChild.innerText;
+    });
+    localStorage.setItem("todos",newArr)
+  }
+  remove.addEventListener("click" ,removeTodo)
 
   display.appendChild(div);
   div.appendChild(p);
   div.appendChild(ops);
   ops.appendChild(check);
   ops.appendChild(remove);
+}
 
-  if (input.value != "") {
-    localStorage.setItem(`list${count}`, input.value);
-  }
-  count = count + 1;
-
-  if (input.value == "") {
-    div.remove();
-    display.appendChild(def);
-    def.innerText = "Your haven't type something to add";
-
-    localStorage.length != 0 ? (count = localStorage.length) : (count = 1);
-    alert("cannot make an empty todo");
-  }
-
+ad.addEventListener("click", (e) => {
+  createTodo(input.value);
   input.value = "";
 
-  check.addEventListener("change", () => {
-    if (check.checked) {
-      p.style.textDecoration = "line-through";
-      p.style.textDecorationColor = "red";
-    } else {
-      p.style.textDecoration = "none";
-    }
-  });
-
-  remove.addEventListener("click", function (e) {
-    let pa = e.target.parentElement.parentElement;
-    console.log(pa.value);
-    pa.remove();
-    localStorage.removeItem(`list${pa.value}`);
-    count = localStorage.length;
-  });
-
+  
   flter.addEventListener("input", (e) => {
     let val = flter.value;
     let lower = val.toLowerCase();
@@ -101,56 +105,15 @@ ad.addEventListener("click", (e) => {
   });
 });
 
-const load = () => {
-  localStorage.length != 0 ? (count = localStorage.length) : (count = 1);
-
-  for (let b = 1; b <= 10; b++) {
-    let l = localStorage.getItem(`list${b}`);
-
-    if (l == null || l == undefined || l == "") {
-      continue;
-    }
-
-    let div = document.createElement("div");
-    div.className = "todos";
-    div.value = b;
-
-    let p = document.createElement("p");
-    p.className = "txt";
-    p.innerText = l;
-
-    let ops = document.createElement("div");
-    ops.className = "ops";
-
-    let check = document.createElement("input");
-    check.type = "checkbox";
-    check.style.cursor = "pointer";
-
-    let remove = document.createElement("i");
-    remove.className = i;
-    // remove.innerHTML = i;
-
-    display.appendChild(div);
-    div.appendChild(p);
-    div.appendChild(ops);
-    ops.appendChild(check);
-    ops.appendChild(remove);
-
-    check.addEventListener("change", () => {
-      if (check.checked) {
-        p.style.textDecoration = "line-through";
-        p.style.textDecorationColor = "red";
-      } else {
-        p.style.textDecoration = "none";
-      }
-    });
-
-    remove.addEventListener("click", (e) => {
-      let pa = e.target.parentElement.parentElement;
-      console.log(pa.value);
-      pa.remove();
-      localStorage.removeItem(`list${pa.value}`);
-      count = localStorage.length;
-    });
+function load(){
+  let get = localStorage.getItem("todos");
+  if (!get) {
+    return;
   }
+  let g = get.split(',');
+  newArr = g;
+  g.forEach((e)=>{
+    createTodo(e)
+    
+  })
 };
