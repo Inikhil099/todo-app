@@ -3,7 +3,7 @@ const ad = document.querySelector(".adding");
 const display = document.querySelector(".display");
 const i = "fa-solid fa-trash";
 const def = document.querySelector(".default");
-const flter = document.querySelector(".filter");
+const filterInput = document.querySelector(".filter");
 let newArr = [];
 
 function createTodo(a) {
@@ -18,10 +18,11 @@ function createTodo(a) {
   if (input.value == "") {
     new swal("Don't Make An Empty TODO ");
     return;
-  } else {
+  }
+  else {
     newArr.push(input.value);
     localStorage.setItem("todos", newArr);
-    generate(input.value);
+    generate(a);
   }
 }
 
@@ -29,13 +30,21 @@ ad.addEventListener("click", (e) => {
   createTodo(input.value);
   input.value = "";
 
-  flter.addEventListener("input", (e) => {
+  filterInput.addEventListener("input", (e) => {
     fil(e);
   });
 });
 
+const TodoDone = (e) => {
+  if (e.target.checked) {
+    e.target.parentElement.parentElement.firstChild.className = "checked"
+  } else {
+    e.target.parentElement.parentElement.firstChild.className = "txt";
+  }
+};
+
 function createOnLoad() {
-  flter.addEventListener("input", (e) => {
+  filterInput.addEventListener("input", (e) => {
     fil(e);
   });
 
@@ -58,10 +67,8 @@ function createOnLoad() {
   });
 }
 
-// filtering todos
-
 function fil(e) {
-  let val = flter.value;
+  let val = filterInput.value;
   let lower = val.toLowerCase();
   let all_todos = document.querySelectorAll(".todos");
 
@@ -80,7 +87,7 @@ function fil(e) {
       let replace = to_lower.replace(lower, `<span class="sp">${lower}</span>`);
       para.innerHTML = replace;
     }
-    if (flter.value == "") {
+    if (filterInput.value == "") {
       item.style.display = "flex";
       let span = document.querySelectorAll(".sp");
       span.forEach((e) => {
@@ -94,26 +101,19 @@ function generate(arg) {
   const div = document.createElement("div");
   div.className = "todos";
 
-  const p = document.createElement("p");
+  let p = document.createElement("p");
   p.className = "txt";
   p.innerText = arg;
-  const TodoDone = () => {
-    if (check.checked) {
-      p.style.textDecoration = "line-through";
-      p.style.textDecorationColor = "red";
-    } else {
-      p.style.textDecoration = "none";
-    }
-  };
 
-  const ops = document.createElement("div");
-  ops.className = "ops";
+  const options = document.createElement("div");
+  options.className = "options";
 
   const check = document.createElement("input");
+  check.className = "check"
   check.type = "checkbox";
   check.style.cursor = "pointer";
-  check.addEventListener("change", () => {
-    TodoDone();
+  check.addEventListener("change", (event) => {
+    TodoDone(event);
   });
 
   const remove = document.createElement("i");
@@ -129,9 +129,52 @@ function generate(arg) {
   }
   remove.addEventListener("click", removeTodo);
 
+  const edit = document.createElement("i")
+  edit.className = "fa-solid fa-pencil edit options"
+  edit.addEventListener("click",(e)=>{
+    EditTodo(e)
+  })
+
   display.appendChild(div);
   div.appendChild(p);
-  div.appendChild(ops);
-  ops.appendChild(check);
-  ops.appendChild(remove);
+  div.appendChild(options);
+  options.appendChild(edit)
+  options.appendChild(check);
+  options.appendChild(remove);
+}
+
+function EditTodo(e) {
+  e.target.style.display = "none"
+  let para = e.target.parentElement.parentElement;
+  let before = para.innerText;
+  let editInput = document.createElement("input")
+  editInput.type = "text"
+  editInput.className = "editinput"
+  para.firstChild.remove()
+  para.insertBefore(editInput,para.firstChild)
+  editInput.value = before;
+  editInput.focus()
+  editInput.addEventListener("blur",()=>{
+    
+    let p = document.createElement('p')
+    p.className = "txt"
+    p.innerText = editInput.value;
+    editInput.remove()
+    para.insertBefore(p,para.firstChild)
+    e.target.style.display = "inline"
+
+    if (editInput.value == "") {
+      p.innerText = before;
+      return;
+    }
+    for (let i = 0; i <= editInput.value.length; i++) {
+      if (editInput.value[i] == " ") {
+        p.innerText = before;
+        return;
+      }
+    }
+    let indx = newArr.indexOf(before)
+    newArr[indx] = editInput.value;
+    localStorage.setItem("todos",newArr)
+  })
 }

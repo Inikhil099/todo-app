@@ -98,8 +98,8 @@ body{
     font-size: 0.9rem;
 }
 
-.ops{
-    width: 16%;
+.options{
+    width: 80px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -131,4 +131,23 @@ body{
 
 .sp{
     color: red;
+}
+
+
+
+.edit{
+    width: auto;
+}
+
+
+.editinput{
+    background-color: black;
+    color: white;
+}
+
+
+
+.checked{
+    text-decoration: line-through;
+    text-decoration-color: red;
 }
