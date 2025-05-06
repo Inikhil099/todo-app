@@ -1,7 +1,7 @@
 const input = document.querySelector(".task");
 const ad = document.querySelector(".adding");
 const display = document.querySelector(".display");
-const i = "fa-solid fa-trash";
+const i = "fa-solid fa-trash delete";
 const def = document.querySelector(".default");
 const filterInput = document.querySelector(".filter");
 let newArr = [];
