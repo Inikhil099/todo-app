@@ -46,14 +46,14 @@ body{
     width: 60%;
     outline: none;
     border: none;
+    color: black;
     background: transparent;
-    color: white;
     margin: auto auto;
     font-size: 1.1rem;
     font-weight: bolder;
 }
 .task::placeholder{
-    color: white;
+    color: black;
 }
 
 

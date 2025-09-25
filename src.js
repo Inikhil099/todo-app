@@ -8,22 +8,18 @@ let newArr = [];
 
 function createTodo(a) {
   def?.remove();
+  const checkEmpty = a.split().every((e) => e == " " || e == "");
 
-  for (let i = 0; i <= input.value.length; i++) {
-    if (input.value[i] == " ") {
-      new swal("Don't Make An Empty TODO ");
-      return;
-    }
-  }
-  if (input.value == "") {
+  if (checkEmpty) {
     new swal("Don't Make An Empty TODO ");
     return;
   }
-  else {
+
     newArr.push(input.value);
     localStorage.setItem("todos", newArr);
     generate(a);
-  }
+    let last = document.getElementsByClassName("todos")
+    last[last.length-1].scrollIntoView({behavior:"smooth"})
 }
 
 ad.addEventListener("click", (e) => {
@@ -37,7 +33,7 @@ ad.addEventListener("click", (e) => {
 
 const TodoDone = (e) => {
   if (e.target.checked) {
-    e.target.parentElement.parentElement.firstChild.className = "checked"
+    e.target.parentElement.parentElement.firstChild.className = "checked";
   } else {
     e.target.parentElement.parentElement.firstChild.className = "txt";
   }
@@ -80,10 +76,10 @@ function fil(e) {
     if (condition != true) {
       item.style.display = "none";
     }
-    
+
     if (condition == true) {
       item.classList.add("filtered");
-      item.style.display = "flex"
+      item.style.display = "flex";
       let replace = to_lower.replace(lower, `<span class="sp">${lower}</span>`);
       para.innerHTML = replace;
     }
@@ -109,7 +105,7 @@ function generate(arg) {
   options.className = "options";
 
   const check = document.createElement("input");
-  check.className = "check"
+  check.className = "check";
   check.type = "checkbox";
   check.style.cursor = "pointer";
   check.addEventListener("change", (event) => {
@@ -129,39 +125,38 @@ function generate(arg) {
   }
   remove.addEventListener("click", removeTodo);
 
-  const edit = document.createElement("i")
-  edit.className = "fa-solid fa-pencil edit options"
-  edit.addEventListener("click",(e)=>{
-    EditTodo(e)
-  })
+  const edit = document.createElement("i");
+  edit.className = "fa-solid fa-pencil edit options";
+  edit.addEventListener("click", (e) => {
+    EditTodo(e);
+  });
 
   display.appendChild(div);
   div.appendChild(p);
   div.appendChild(options);
-  options.appendChild(edit)
+  options.appendChild(edit);
   options.appendChild(check);
   options.appendChild(remove);
 }
 
 function EditTodo(e) {
-  e.target.style.display = "none"
+  e.target.style.display = "none";
   let para = e.target.parentElement.parentElement;
   let before = para.innerText;
-  let editInput = document.createElement("input")
-  editInput.type = "text"
-  editInput.className = "editinput"
-  para.firstChild.remove()
-  para.insertBefore(editInput,para.firstChild)
+  let editInput = document.createElement("input");
+  editInput.type = "text";
+  editInput.className = "editinput";
+  para.firstChild.remove();
+  para.insertBefore(editInput, para.firstChild);
   editInput.value = before;
-  editInput.focus()
-  editInput.addEventListener("blur",()=>{
-    
-    let p = document.createElement('p')
-    p.className = "txt"
+  editInput.focus();
+  editInput.addEventListener("blur", () => {
+    let p = document.createElement("p");
+    p.className = "txt";
     p.innerText = editInput.value;
-    editInput.remove()
-    para.insertBefore(p,para.firstChild)
-    e.target.style.display = "inline"
+    editInput.remove();
+    para.insertBefore(p, para.firstChild);
+    e.target.style.display = "inline";
 
     if (editInput.value == "") {
       p.innerText = before;
@@ -173,8 +168,8 @@ function EditTodo(e) {
         return;
       }
     }
-    let indx = newArr.indexOf(before)
+    let indx = newArr.indexOf(before);
     newArr[indx] = editInput.value;
-    localStorage.setItem("todos",newArr)
-  })
+    localStorage.setItem("todos", newArr);
+  });
 }
